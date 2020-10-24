@@ -46,8 +46,8 @@ void dfsPermutation(vector<int>& s,vector<int>& ans){
 }
 ```
  - 枚举组合
- * 使用标记法
-```
+     * 使用标记法
+```c++
 void dfsCombination(vector<int>& s,vector<int>& ans,int cur,int target){
     if(target==ans.size())
     {
@@ -64,6 +64,60 @@ void dfsCombination(vector<int>& s,vector<int>& ans,int cur,int target){
     }
 }
 ```
- * 使用二进制
+     * 使用二进制
 ```
+```
+ - 枚举组合允许重复选取元素，选取限制在2个
+```c++
+void dfsCombinationR(vector<int>& s,vector<int>& ans,vector<int>&assist,int cur,int target){
+    if(target==ans.size())
+    {
+        for(auto e:ans)
+            cout<<e<<' ';
+        cout<<endl;
+        return;
+    }
+    for(size_t i=cur;i<s.size();i++)
+    {
+        if(assist[i]<1)
+        {
+            ans.push_back(s[i]);
+            assist[i]++;
+            dfsCombinationR(s,ans,assist,i,target);
+            ans.pop_back();
+            assist[i]--;
+        }
+        else if(assist[i]==1)
+        {
+            ans.push_back(s[i]);
+            assist[i]++;
+            dfsCombinationR(s,ans,assist,i+1,target);
+            ans.pop_back();
+            assist[i]--;
+        }
+    }
+}
+```
+ - 枚举排列允许重复选取元素，选取限制在2个
+```c++
+void dfsPermutationRC(vector<int>& s,vector<int>& ans,vector<int>&assist){
+    if(s.size()==ans.size())
+    {
+        for(auto e:ans)
+            cout<<e<<' ';
+        cout<<endl;
+        return;
+    }
+    for(size_t i=0;i<s.size();i++)
+    {
+        if(assist[i]<=1)
+        {
+            ans.push_back(s[i]);
+            assist[i]++;
+            dfsPermutationRC(s,ans,assist);
+            ans.pop_back();
+            assist[i]--;
+        }
+    }
+}
 ```
